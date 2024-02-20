@@ -1,0 +1,40 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package logfile {
+}
+
+class VisitVisualizer {
+  +VisitVisualizer(visitFactory: VisitFactory)
+  +visualize(dataset: String)
+}
+
+class Visit {
+  +visualize()
+  +getVisitCharacter() : char
+  +getVisitColor(): VisitColor
+}
+
+class InvalidVisit {
+}
+
+class VisitFactory {
+  +createVisitFromLogEvent(logEvent: String): Visit
+}
+
+enum VisitColor <<enumeration>> {
+  +INVALID_COLOR
+  +ANONYMOUS_VISITOR_COLOR
+  +TEST_VISITOR_COLOR
+  +AMAZON_VISITOR_COLOR
+  +ZAPPOS_VISITOR_COLOR
+
+  +getColorCode(): String
+}
+
+logfile -. VisitVisualizer: reads
+VisitFactory --o VisitVisualizer
+VisitFactory -. Visit: creates
+Visit . VisitColor: references
+Visit <|-- InvalidVisit
+@enduml
